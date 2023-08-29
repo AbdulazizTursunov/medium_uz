@@ -1,4 +1,4 @@
-import 'article_model.dart';
+import '../../data/models/article_model/article_model.dart';
 import 'package:equatable/equatable.dart';
 abstract class ArticleState  extends Equatable {}
 
@@ -18,6 +18,13 @@ class ArticleGetState extends ArticleState {
   final List<ArticleModel> articleModel;
   @override
   List<Object?> get props => [articleModel];
+}
+class ArticleGetStateById extends ArticleState {
+
+  ArticleGetStateById({required this.artModel});
+  final ArticleModel artModel;
+  @override
+  List<Object?> get props => [artModel];
 }
 
 

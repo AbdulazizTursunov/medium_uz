@@ -95,12 +95,11 @@ class UserModel {
     return FormData.fromMap({
       "username": username,
       "contact": contact,
-      "email": email,
+      "gmail": email,
       "password": password,
       "profession": profession,
-      // "role": role,
       "gender": gender,
-      "avatar":  await MultipartFile.fromFile(file.path, filename: fileName),
+      "file":  await MultipartFile.fromFile(file.path, filename: fileName),
     });
   }
 }

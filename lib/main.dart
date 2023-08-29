@@ -5,9 +5,11 @@ import 'package:medium_uz/cubit/auth/auth_cubit.dart';
 import 'package:medium_uz/cubit/tab_cubit/tab_box_cubit.dart';
 import 'package:medium_uz/cubit/user_cubit/user_cubit.dart';
 import 'package:medium_uz/cubit/user_data_cubit/user_data_cubit.dart';
+import 'package:medium_uz/cubit/website_cubit/website_cubit.dart';
 import 'package:medium_uz/data/network/user_api_service.dart';
 import 'package:medium_uz/data/repositories/article_repository.dart';
 import 'package:medium_uz/data/repositories/user_repository.dart';
+import 'package:medium_uz/data/repositories/website_repositories.dart';
 import 'package:medium_uz/ui/routes/app_routes.dart';
 import 'package:medium_uz/utils/theme.dart';
 import 'cubit/article_cubit/article_cubit.dart';
@@ -45,6 +47,9 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => ProfileRepository(apiService: apiService),
+        ),
+        RepositoryProvider(
+          create: (context) => WebsiteRepository(apiService: apiService),
         )
       ],
       child: MultiBlocProvider(
@@ -66,6 +71,10 @@ class App extends StatelessWidget {
           BlocProvider(
             create: (context) => ProfileCubit(
                profileRepository:  context.read<ProfileRepository>()),
+          ),
+          BlocProvider(
+            create: (context) => WebsiteCubit(
+                websiteRepository:  context.read<WebsiteRepository>()),
           ),
           BlocProvider(
             create: (context) => TabCubit(),

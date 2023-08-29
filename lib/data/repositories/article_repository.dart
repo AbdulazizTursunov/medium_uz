@@ -9,4 +9,8 @@ class ArticleRepositories{
   ArticleRepositories({required this.apiService});
 
   Future<UniversalData> getArticle()=>apiService.getAllArticles();
+
+  Future<UniversalData> getArticleById({required int idArticle })=>apiService.getArticleById(idArticle: idArticle);
+
+
 }

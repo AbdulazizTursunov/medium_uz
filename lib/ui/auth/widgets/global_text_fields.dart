@@ -37,7 +37,7 @@ class _GlobalTextFieldState extends State<GlobalTextField> {
   @override
   Widget build(BuildContext context) {
     var maskFormatter = MaskTextInputFormatter(
-        mask: '+998 (##) ### - ## - ##',
+        mask: '(##) ### - ## - ##',
         filter: {"#": RegExp(r'[0-9]')},
         type: MaskAutoCompletionType.lazy);
 

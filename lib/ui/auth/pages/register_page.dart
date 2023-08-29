@@ -26,6 +26,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   ImagePicker picker = ImagePicker();
+  String phone='';
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +84,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 textInputAction: TextInputAction.next,
                 textAlign: TextAlign.left,
                 onChanged: (value) {
+                  String phone = value.replaceAll(" ", "");
+                  phone = phone.replaceAll("(", "");
+                  phone = phone.replaceAll(")", "");
+                  phone = phone.replaceAll("-", "");
+                  debugPrint("444444444444444444444444444444444444444444444444444$phone");
                   context.read<UserDataCubit>().updateCurrentUserField(
                       userModelFieldKeys: UserModelFieldKeys.contact,
-                      value: value);
+                      value: phone);
                 }),
             SizedBox(
               height: MediaQuery.of(context).size.height / 20,
@@ -146,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 }),
             const SizedBox(height: 10),
             const GenderSelector(),
-         const   GenderSelectorRadioButton(),
+         // const   GenderSelectorRadioButton(),
             if (context.read<UserDataCubit>().state.userModel.avatar.isEmpty)
               // SizedBox(
               //   height: 200,
@@ -163,6 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTap: () {
                   if (context.read<UserDataCubit>().canRegister()) {
                     debugPrint("----------------------------------------${context.read<UserDataCubit>().state.userModel.avatar}");
+                    debugPrint("----------------------------------------${phone}");
                     context.read<AuthenticationCubit>().sendCodeToGmail(
                       context.read<UserDataCubit>().state.userModel.email,
                       context

@@ -4,6 +4,7 @@ import 'package:medium_uz/cubit/auth/auth_cubit.dart';
 import 'package:medium_uz/cubit/tab_cubit/tab_box_cubit.dart';
 import 'package:medium_uz/ui/tab/profile_screen/profile_screen.dart';
 import 'package:medium_uz/ui/tab/user_other_screen/user_screen.dart';
+import 'package:medium_uz/ui/tab/website_screen/website_screen.dart';
 
 import '../../cubit/auth/abstract_auth_state.dart';
 import '../routes/app_routes.dart';
@@ -21,9 +22,10 @@ class _TabBoxState extends State<TabBox> {
   @override
   void initState() {
     screens = [
-      ArticlesScreen(),
-      ProfileScreen(),
-      UserInfoScreen()
+      const ArticlesScreen(),
+      const WebsiteScreen(),
+      const  ProfileScreen(),
+      const  UserInfoScreen()
     ];
     super.initState();
   }
@@ -40,8 +42,14 @@ class _TabBoxState extends State<TabBox> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.shifting,
+          elevation: 10,
+          backgroundColor: Colors.blue,
+          selectedItemColor: Colors.greenAccent,
+          unselectedItemColor: Colors.black,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.article), label: "Article"),
+          BottomNavigationBarItem(icon: Icon(Icons.web), label: "Website"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
           BottomNavigationBarItem(icon: Icon(Icons.info_outline_sharp), label: "users"),
         ],

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medium_uz/utils/ui_utils/custom_circular.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../../cubit/article_cubit/article_cubit.dart';
-import '../../../cubit/article_cubit/article_model.dart';
+import '../../../data/models/article_model/article_model.dart';
 import '../../../cubit/article_cubit/article_state.dart';
 import '../../../utils/colors/app_colors.dart';
 import '../../../utils/constants/constants.dart';
 import '../../../utils/ui_utils/error_message_dialog.dart';
+import '../../routes/app_routes.dart';
 
 class ArticlesScreen extends StatefulWidget {
   const ArticlesScreen({super.key});
@@ -22,6 +22,7 @@ class ArticlesScreen extends StatefulWidget {
 class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   Widget build(BuildContext context) {
+    context.read<ArticleCubit>().getInfoArticle();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Articles screen"),
@@ -46,65 +47,65 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         builder: (context, state) {
           if (state is ArticleGetState) {
             return ListView(
-              children: [...List.generate(state.articleModel.length, (index) {
-                ArticleModel articleModel = state.articleModel[index];
-                return ListTile(
-                  leading:  ClipRRect(
-      borderRadius: BorderRadius.circular(26),
-      child: Hero(
-        tag: 'tag$index',
-        child: CachedNetworkImage(
-          imageUrl:
-              '$baseUrlImage${articleModel.avatar}',
-          height: 100,
-          width: 80,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => const Center(
-              child: CupertinoActivityIndicator(
-            color: AppColors.passiveTextColor,
-          )),
-          errorWidget: (context, url, error) =>
-              Icon(
-            Icons.error,
-            color: AppColors.c_C93545,
-          ),
-        ),
-      ),
-    ),
-                  title:  Text(
-                    articleModel.title,
-                    style: TextStyle(
-                        fontSize: 18.sp,
-                        color: AppColors.passiveTextColor),
-                  ),
-
-                  subtitle:
-                      Text(
+              children: [
+                ...List.generate(
+                  state.articleModel.length,
+                  (index) {
+                    ArticleModel articleModel = state.articleModel[index];
+                    return ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteNames.articleDetail,
+                            arguments: articleModel.artId);},
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(26),
+                        child: Hero(
+                          tag: 'tag$index',
+                          child: CachedNetworkImage(
+                            imageUrl: '$baseUrlImage${articleModel.avatar}',
+                            height: 100,
+                            width: 80,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const Center(
+                                child: CupertinoActivityIndicator(
+                              color: AppColors.passiveTextColor,
+                            )),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.error,
+                              color: AppColors.c_C93545,
+                            ),
+                          ),
+                        ),
+                      ),
+                      title: Text(
+                        articleModel.title,
+                        style: TextStyle(
+                            fontSize: 18.sp, color: AppColors.passiveTextColor),
+                      ),
+                      subtitle: Text(
                         articleModel.description,
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 16.sp,
-                            color: AppColors.passiveTextColor),
+                            fontSize: 16.sp, color: AppColors.passiveTextColor),
                       ),
-
-                  trailing:
-                  Text(
-                  articleModel.views,
-                    style:const TextStyle(
-                        color:
-                        AppColors.passiveTextColor),
-                  ),
-                );
-
-
-              },)
+                      trailing: Text(
+                        articleModel.views,
+                        style:
+                            const TextStyle(color: AppColors.passiveTextColor),
+                      ),
+                    );
+                  },
+                )
               ],
             );
           }
           return const Center(
-            child: Center(child: Text(
-              "articles not found", style: TextStyle(color: Colors.black),),),
+            child: Center(
+              child: Text(
+                "articles not found",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
           );
         },
       ),
